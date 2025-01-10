@@ -182,6 +182,7 @@ spec:
   externalName: google.com
 ```
 ```sh
+
 kubectl apply -f external-svc.yaml
 
 kubectl get svc
