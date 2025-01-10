@@ -3,7 +3,7 @@
   
 ```sh
 # cd ~
-# git clone http://20.39.189.171/platformteam/kubernetes.git
+# git clone https://github.com/yeongdeokcho/edu.git
 cd  ~/kubernetes/lecture1
 ```
 
