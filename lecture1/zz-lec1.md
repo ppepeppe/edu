@@ -1,7 +1,9 @@
-# lecture-1
+# lecture-1 : Pod
+- Replication Controller, RelicaSet, Deployment, Rollout
 - Master Node에서 실행 
   
 ```sh
+
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
 cd  ~/kubernetes/lecture1
@@ -11,6 +13,7 @@ cd  ~/kubernetes/lecture1
 
 ## 1.1 kubectl run
 ```bash
+
 # default namepsace에서 실행된다 
 kubectl run my-nginx --image=nginx
 
@@ -41,6 +44,7 @@ spec:
 ```
 
 ```bash
+
 kubectl create -f pod.yaml
 ## apply 추천
 kubectl apply -f pod.yaml
@@ -54,6 +58,7 @@ kubectl delete -f pod.yaml
 
 ### 1.2.1 pod 조회 
 ```bash
+
 kubectl get pod 
 kubectl get pod -o wide       # o : 출력 형식 wide(테이블), json, yaml 등 
 kubectl describe pod my-nginx 
@@ -74,7 +79,6 @@ kubectl delete -f pod.yaml
 
 ## 1.3 Replication Controller
 rc.yaml
-
 ```yaml
 apiVersion: v1
 kind: ReplicationController
@@ -98,6 +102,7 @@ spec:
 
 ```
 ```bash
+
 # 생성
 kubectl apply -f rc.yaml
 
@@ -121,7 +126,6 @@ kubectl delete -f rc.yaml
 ## 1.4  ReplicaSet
 
 rc.yaml
-
 ```yaml
 apiVersion: apps/v1
 kind: ReplicaSet
@@ -148,6 +152,7 @@ spec:
 
 ```
 ```bash
+
 # 생성 
 kubectl apply -f rs.yaml
 # 확인
@@ -156,7 +161,6 @@ kubectl exec -it my-nginx-26hzf -n default -- curl localhost
 
 # pod 하나를 지워본다, 다시 생성된다 
 kubectl delete pod my-nginx-l2258 
-
 ```
 - 레플리카셋을 직접 사용하기보다는 디플로이먼트를 사용하는 것을 권장
 - kubectl get replicaset
@@ -188,6 +192,7 @@ spec:
 
 ### 1.4.1 clear
 ```sh
+
  # clear
 kubectl delete -f rs.yaml
 ```
@@ -195,6 +200,7 @@ kubectl delete -f rs.yaml
 ## 1.5  deployment
 - 파드와 레플리카셋(ReplicaSet)에 대한 선언적 업데이트를 제공한다
 - Rolling Update
+
 nginx-deploy.yaml
 ```yaml
 apiVersion: apps/v1
@@ -237,7 +243,7 @@ kubectl get pods --show-labels
 
 ### 1.5.2 update 
 
-vi deploy.yaml 
+deploy.yaml 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -260,6 +266,7 @@ spec:
         - containerPort: 80
 ```
 ```sh
+
 ## update 반영
 kubectl apply -f deploy-u.yaml
 
@@ -271,6 +278,7 @@ kubectl get rs ## replicas 정보확인( DESIRED, CURRENT) , histroy
 
 ### 1.5.3 deployment 삭제 
 ```bash
+
 kubectl delete deployment nginx-deployment
 kubectl delete -f deploy-u.yaml
 
@@ -278,6 +286,7 @@ kubectl delete -f deploy-u.yaml
 
 ### 1.5.4 pod 리소스 확인 
 ```bash
+
 kubectl apply -f deploy.yaml
 kubectl get apiservices | grep metrics
 
@@ -294,12 +303,13 @@ kubectl top node
 - rollout를 하기 위해서는 --record 옵션을 둘수 있다 하지만 이것은 deprecated 되어서 앞으로 사용하지 말것
 - rollout 명령어 
   - kubectl rollout status: 롤아웃 작업의 상태를 확인
-  - kubectl rollout history: 롤아웃 작업의 이력을 확인
-  - kubectl rollout undo: 롤아웃 작업을 취소하고 이전 버전으로 롤백
-  - kubectl rollout restart: 롤아웃 작업을 재시작 
-  - kubectl rollout pause/resume: 롤링 업데이트를 일시 중지하거나 다시 시작
+  - kubectl rollout history: 롤아웃 작업의 이력을 확인
+  - kubectl rollout undo: 롤아웃 작업을 취소하고 이전 버전으로 롤백
+  - kubectl rollout restart: 롤아웃 작업을 재시작 
+  - kubectl rollout pause/resume: 롤링 업데이트를 일시 중지하거나 다시 시작
 
 ```bash
+
 kubectl apply -f deploy.yaml
 kubectl get deploy 
 
@@ -311,8 +321,7 @@ kubectl rollout history deploy/nginx-deployment
 REVISION  CHANGE-CAUSE
 1         <none>
 
-
-## [참고] 이전에는 --record 를 해야 history에서 확인했다 하지만 --record deprecated 되었다 
+## [참고] 이전에는 --record 를 해야 history에서 확인 하지만 --record deprecated 됨
 # k apply -f deploy.yaml --record
 ```
 
@@ -345,6 +354,7 @@ spec:
 
 ```
 ```sh
+
 ## 이전 배포 clear 
 kubectl delete -f deploy.yaml
 
@@ -358,6 +368,7 @@ REVISION  CHANGE-CAUSE
 ```
 ## 2.2  image update
 ```sh
+
 # nginx:1.18 이미지 변경
 kubectl set image deployment/nginx-deployment nginx=nginx:1.18
 ## annotations update
@@ -374,6 +385,7 @@ kubectl rollout history deploy/nginx-deployment
 
 ## 2.3 rollout undo 
 ```sh
+
 kubectl rollout undo deploy/nginx-deployment
 kubectl describe deployment nginx-deployment 
 kubectl rollout history deploy/nginx-deployment

@@ -1,4 +1,5 @@
-# lecture-2
+# lecture-2 : Service
+- ClusterIP, NodePort, LoadBalancer, ExternalName
 - Master Node에서 실행
 
 ```bash
@@ -7,9 +8,6 @@
 # git clone https://github.com/yeongdeokcho/edu.git
 cd  ~/kubernetes/lecture2
 ```
-
-
-# Service
 
 ## 1. nginx deployment 배포
 ```bash

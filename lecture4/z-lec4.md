@@ -182,11 +182,13 @@ http://211.253.8.141/apache
 # ingress clear
 kubectl delete -f ingress-rule.yaml 
 ```
-## 1.4 host 기반으로 설정 가능하다
+## 1.4 host 기반으로 설정
 ingress-host-rule.yaml
 
 - DNS Wildcard 서비스 사용 테스트 : 
   - IP 주소를 서브도메인에 포함시켜 DNS를 자동으로 매핑해주는 역할(sslip.io, nip.io)
+  - Ingress 가 요청의 헤더 확인, 헤더의 HOST 값을 ingress rule 에서 찾음
+  - Ingress 룰(host 설정, ex:nginx.211.253.25.128.sslip.io)에 있으면 해당 service로 이동  
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -222,7 +224,7 @@ kubectl apply -f ingress-host-rule.yaml
 kubectl get ingress
 kubectl get ing
 
-# 조회 결과
+# 조회 결과 : 포트 80만 할성화 (443포트 비활성화)
 root@master01:~/kubernetes/lecture4# kubectl get ingress
 NAME      CLASS   HOSTS                                                          ADDRESS   PORTS   AGE
 web-ing   nginx   nginx.211.253.25.128.sslip.io,apache.211.253.25.128.sslip.io             80      3s
@@ -282,8 +284,9 @@ spec:
 ## ingress-rule 배포
 kubectl apply -f ingress-tls.yaml
 
-kubectl get svc
-# 조회 결과 
+kubectl get ing
+# 조회 결과 : 80, 443포트 활성화 
+# IngressController가 80, 443 모두 활성화 시킴
 root@master01:~/kubernetes/lecture4# kubectl get ingress
 NAME      CLASS   HOSTS                           ADDRESS   PORTS     AGE
 web-ing   nginx   nginx.211.253.25.128.sslip.io             80, 443   19s
