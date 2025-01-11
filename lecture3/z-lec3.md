@@ -1,4 +1,4 @@
-# lecture-3
+# lecture-3 : DaemonSet, StatefulSet
 - Master Node에서 실행
 
 ```bash
