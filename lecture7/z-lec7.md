@@ -1,4 +1,4 @@
-# lecture-7 : 배포 전략
+# lecture-7 : 배포 전략, nodeSelector, Affinity
 - Master Node에서 실행
 
 ```bash
@@ -10,6 +10,7 @@ cd  ~/kubernetes/lecture7
 
 # 1. node lables
 ```sh
+
 kubectl get nodes
 kubectl get nodes --show-labels 
 kubectl get nodes --show-labels | grep kubernetes.io/hostname
@@ -673,7 +674,7 @@ kubectl patch service nginx-service -p '{"spec":{"selector":{"app":"nginx","vers
 
 ```
 
-## 6.1 Clear
+## 7.1 Clear
 ```bash
 
 kubectl delete -f nginx-deploy-blue.yaml
