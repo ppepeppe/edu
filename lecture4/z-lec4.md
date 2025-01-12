@@ -158,7 +158,6 @@ NAME      CLASS   HOSTS   ADDRESS   PORTS   AGE
 web-ing   nginx   *                 80      12s
 
 
-
 curl http://172.27.0.179/nginx
 curl http://172.27.0.179/apache
 curl http://172.27.0.136/nginx
@@ -303,9 +302,11 @@ annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 ```
 
-# clear
-```yaml
+# 3 clear
+```bash
+
 kubectl delete -f ingress-tls.yaml
 kubectl delete -f nginx-apache.yaml
 
+kubectl delete secret nginx-tls-secret
 ```

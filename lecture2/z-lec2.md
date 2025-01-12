@@ -53,7 +53,7 @@ nginx-svc    ClusterIP   10.43.88.2   <none>        80/TCP    4s
 
 
 ## master01에서 다음과 같이 cluster-ip로  조회가 가능해진다 
-curl http://10.43.54.221
+curl http://10.43.229.98
 
 ## 서비스가 로드밸렁스 하는지 확인해 본다 (3개 에 모두 적용)
 ## Master Node에서 실행
