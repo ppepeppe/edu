@@ -215,7 +215,6 @@ spec:
         image: nginx:1.17
         ports:
         - containerPort: 80
-
         volumeMounts:
           - name: nginx-index-config-vol
             mountPath:  /usr/share/nginx/html/index.html  # 컨테이너 내부의 파일 시스템 경로 지정
