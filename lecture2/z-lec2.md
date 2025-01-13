@@ -6,7 +6,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture2
+cd  ~/edu/lecture2
 ```
 
 ## 1. nginx deployment 배포

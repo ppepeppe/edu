@@ -5,7 +5,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture7
+cd  ~/edu/lecture7
 ```
 
 # 1. node lables

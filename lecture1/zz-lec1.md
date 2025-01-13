@@ -6,7 +6,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture1
+cd  ~/edu/lecture1
 ```
 
 # 1.  pod 생성

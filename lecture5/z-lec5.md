@@ -5,7 +5,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture5
+cd  ~/edu/lecture5
 ```
 
 # 1. namespace

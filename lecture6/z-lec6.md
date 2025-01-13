@@ -5,7 +5,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture6
+cd  ~/edu/lecture6
 ```
 
 # 1. emptyDir

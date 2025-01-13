@@ -5,7 +5,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture3
+cd  ~/edu/lecture3
 ```
 
 # 1. DaemonSet

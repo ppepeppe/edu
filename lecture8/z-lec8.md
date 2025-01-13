@@ -5,7 +5,7 @@
 
 # cd ~
 # git clone https://github.com/yeongdeokcho/edu.git
-cd  ~/kubernetes/lecture8
+cd  ~/edu/lecture8
 ```
 
 
@@ -305,16 +305,19 @@ o Password : github PAT (zz-github.md 참조)
 ### 3.2.2 git applications 설정
 ```bash
 
-o Applications > NEW APP
+o Applications > create
 o Name: demo
 o Project Name: default
-o Repository URL :  선택 
-o Revision: main
-o Path :  vas 선택 
+o Repository URL : 선택(https://github.com/yeongdeokcho/edu.git) 
+o Revision: HEAD
+o Path : 선택(lecture8/manifests)
 o Cluster URL :  https://kubernetes.default.svc 선택 
-o Namespace:  vas
+o Namespace:  default
 o kustomize : Images 부분에 이미지와 tag 버전이 맞는지 확인 
 o 위의 CREATE 버튼 클릭
 o SYNC 버튼 클릭 >  SYNCRONIZE
-
 ```
+![aogocd app 등록](/lecture8/img/lecture8-cicd-argo-app.png)
+![argocd app 등록완료](/lecture8/img/lecture8-cicd-argo-app-demo.png)
+![argocd Sync](/lecture8/img/lecture8-cicd-argo-sync.png)
+![argocd Dashboard](/lecture8/img/lecture8-cicd-argo-dash.png)
