@@ -16,6 +16,26 @@ cd  ~/edu/lecture8
 - deploy: argocd
 - github/docker-hub 계정 필요
 
+## 1.1 github 소스 import 
+```bash
+
+# 기준 소스 github 접속
+https://github.com/yeongdeokcho/edu-demo
+
+## import 대상 소스 url 복사 : HTTPS 탭 선택 후 URL 복사 (default : SSH)
+code 클릭 후 URL 복사
+
+## 각자 githut 이동
+
+## 상단 + 버튼 클릭 후 import 설정 추가 후 begin import 클릭
+
+```
+- 기준 소스 복사 : HTTPS
+  ![docker build](/lecture8/img/lecture8-github-base.png)
+- Import 메뉴 선택
+  ![docker build](/lecture8/img/lecture8-github-imp.png)
+- 신규 레포지토리 설정 : import 기준
+    ![docker build](/lecture8/img/lecture8-github-imp-set.png)
 
 # 2. Docker Build
 
