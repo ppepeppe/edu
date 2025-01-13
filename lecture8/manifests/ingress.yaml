@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8s-edu-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "k8s.211.253.25.128.sslip.io"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: k8s-edu-service
+                port:
+                  number: 80

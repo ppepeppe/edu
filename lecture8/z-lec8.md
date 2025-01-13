@@ -182,3 +182,139 @@ kubectl apply -f demo-deploy.yaml
 http://k8s.211.253.25.128.sslip.io/api/v1/user/82265604
 
 ```
+
+# 3. argocd
+## 3.1 argocd 설치
+```bash
+
+curl https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml > argocd-install.yaml
+vi argocd-install.yaml
+## 23744 라인 전후에 - --insecure  추가(https 비활성화 옵션)
+
+```
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/part-of: argocd
+  name: argocd-server
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argocd-server
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: argocd-server
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/part-of: argocd
+              topologyKey: kubernetes.io/hostname
+            weight: 5
+      containers:
+      - args:
+        - /usr/local/bin/argocd-server
+        - --insecure        ## added by yeongdeok.cho 추가 https 비활성화
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: auth
+              name: argocd-redis
+```
+![argocd 설치](/lecture8/img/lecture8-argocd-install.png)
+
+
+- argocd-ingress
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ing
+  namespace: argocd
+#  annotations:
+#    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+#    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "argocd.211.253.25.128.sslip.io"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  name: http
+```
+```bash
+
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f argocd-install.yaml
+
+## argocd password 확인 : root@ 전까지...
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+#cMEREj0TXtE0wda4
+
+#kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+#cMEREj0TXtE0wda4root@master01:~/kubernetes/lecture8#
+
+kubectl apply -f argocd-ing.yaml
+```
+
+## 3.2 argocd 접속
+- http://argocd.211.253.25.128.sslip.io/
+- admin/cMEREj0TXtE0wda4
+
+
+## 3.2 argocd 설정 
+### 3.2.1 git repository 설정
+
+```bash
+
+# https://github.com/yeongdeokcho/edu.git -> 개인 레포지토리로 수정 
+o argocd 홈  >  Settings > Repositories > connect REPO
+o VIA HTTPS 선택
+o type: git
+o project: default
+o Repository URL : https://github.com/yeongdeokcho/edu.git
+o Username : 각 개인 계정
+o Password : github PAT (zz-github.md 참조)
+
+```
+![github PAT](/lecture8/img/letcure8-cicd-github-pat.png)
+![argocd connect](/lecture8/img/lecture8-cicd-argo-conn.png)
+
+### 3.2.2 git applications 설정
+```bash
+
+o Applications > NEW APP
+o Name: demo
+o Project Name: default
+o Repository URL :  선택 
+o Revision: main
+o Path :  vas 선택 
+o Cluster URL :  https://kubernetes.default.svc 선택 
+o Namespace:  vas
+o kustomize : Images 부분에 이미지와 tag 버전이 맞는지 확인 
+o 위의 CREATE 버튼 클릭
+o SYNC 버튼 클릭 >  SYNCRONIZE
+
+```
